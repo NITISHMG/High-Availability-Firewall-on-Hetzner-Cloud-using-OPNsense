@@ -1,0 +1,10 @@
+network:
+  version: 2
+  ethernets:
+    enp7s0:
+      dhcp4: true
+      routes:
+        - to: default
+          via: 10.0.0.1
+      nameservers:
+        addresses: [1.1.1.1, 8.8.8.8]
