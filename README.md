@@ -23,8 +23,7 @@ A production-grade High Availability (HA) firewall setup using OPNsense on Hetzn
                     ┌──────┴──────┐
                     │             │
               App VM (10.20.1.3)  K8s (10.30.0.0/16)
-              Docker + Nginx      (future)
-
+              Docker + Nginx      (future)     
 ##  Infrastructure Components
 
 | Component              | Details                       |
@@ -164,7 +163,6 @@ System → Routes → Configuration → Add:
 
 #### Install on Ubuntu 24.04
 
-```bash
 sudo apt install network-manager-openvpn-gnome -y
 sudo systemctl restart NetworkManager
 # Import .ovpn file via Settings → Network → VPN → +
@@ -196,6 +194,7 @@ AllowedIPs = 0.0.0.0/0,::/0
 ```bash
 sudo wg-quick up wg0
 ```
+![opnsense-HA](Images/opnsense1-2.png)
 
 ### Step 8 — HAProxy + SSL Setup
 
@@ -234,7 +233,7 @@ To run simple app create VM with ip 10.20.1.3 and configure netplan apply by con
 
 #### Netplan config
 
-```yaml
+# yaml
 network:
   version: 2
   ethernets:
@@ -273,7 +272,7 @@ description:HA Failover Monitor
 EOF
 
 service configd restart
-
+```
 #### Add to OPNsense Cron (persists after reboot from UI)
 
 - System → Settings → Cron → Add
@@ -302,11 +301,13 @@ After any config change → click Synchronize ✓
 ##  Failover Test
 
 Run on your local machine:
-
+![opnsense-HA](Images/failover-test.jpg.png)
 ```bash
 Result: ~45 second failover time ✓
 ```
+HA opnsense Firewall traffic flow
 
+![opnsense-HA](Images/HA-Firewall-Flow.png)
 ## Key Limitations
 
 - Hetzner does not support multicast → CARP not available
