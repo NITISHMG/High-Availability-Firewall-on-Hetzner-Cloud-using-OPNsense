@@ -229,11 +229,15 @@ sudo wg-quick up wg0
 
 ### Step 9 — App VM Setup (10.20.1.3)
 
-To run simple app create VM with ip 10.20.1.3 and configure netplan apply by config file. /netplan/50-cloud-init.yaml
+To run simple app create VM with public ip first and privet ip 10.20.1.3
+# Before applying netplan apply disable network config as bellow by creating file as below and add line network: {config: disabled}, This Disable cloud-init networking when reboot.
+nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+network: {config: disabled} 
 
+# configure netplan config file. 
+nano /etc/netplan/50-cloud-init.yaml
 #### Netplan config
-
-# yaml
+```yaml
 network:
   version: 2
   ethernets:
@@ -244,7 +248,12 @@ network:
           via: 10.0.0.1
       nameservers:
         addresses: [1.1.1.1, 8.8.8.8]
-
+```
+```bash
+sudo chmod 600 /etc/netplan/50-cloud-init.yaml
+netplan apply
+``` 
+# Remove public ip and now you cna access from privet ip 10.20.1.3 For your VPN wireguard.
 #### Run nginx via Docker compose for testing.
 
 mkdir /docker 
