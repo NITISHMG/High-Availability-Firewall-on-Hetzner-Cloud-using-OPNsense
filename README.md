@@ -231,9 +231,10 @@ sudo wg-quick up wg0
 
 To run simple app create VM with public ip first and privet ip 10.20.1.3
 # Before applying netplan apply disable network config as bellow by creating file as below and add line network: {config: disabled}, This Disable cloud-init networking when reboot.
+```
 nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 network: {config: disabled} 
-
+```
 # configure netplan config file. 
 nano /etc/netplan/50-cloud-init.yaml
 #### Netplan config
