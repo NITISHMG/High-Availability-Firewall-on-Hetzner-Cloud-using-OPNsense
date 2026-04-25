@@ -180,6 +180,7 @@ sudo systemctl restart NetworkManager
 
 ```bash
 sudo apt install wireguard -y
+[wg0.conf.example](wireguard/wg0.conf.example)
 sudo nano /etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = <client-private-key>
@@ -231,12 +232,13 @@ sudo wg-quick up wg0
 
 To run simple app create VM with public ip first and privet ip 10.20.1.3
 # Before applying netplan apply disable network config as bellow by creating file as below and add line network: {config: disabled}, This Disable cloud-init networking when reboot.
-```
+
 nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
-network: {config: disabled} 
-```
+network: {config: disabled}
+---
 # configure netplan config file. 
 nano /etc/netplan/50-cloud-init.yaml
+[netplan-apply](netplan/50-cloud-init.yaml)
 #### Netplan config
 ```yaml
 network:
@@ -258,6 +260,7 @@ netplan apply
 #### Run nginx via Docker compose for testing.
 
 mkdir /docker 
+[docker-compose.yaml](docker/docker-compose.yaml)
 
 docker compose up -d and past sample index.html
 
@@ -268,6 +271,8 @@ Store script at /usr/local/sbin/ha-monitor.sh: on both VM
 /scripts/ha-monitor-opnsense1.sh
 
 /scripts/ha-monitor-opnsense2.sh copy respectively by changing ip, server-ID, public ip & Hetzner_token
+[ha-script](scripts/ha-monitor-opnsense1.sh)
+[ha-script](scripts/ha-monitor-opnsense2.sh)
 
 #### Register as configd action to make persistent after reboot
 
